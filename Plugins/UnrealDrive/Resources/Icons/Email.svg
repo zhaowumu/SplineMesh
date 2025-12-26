@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   data-name="Layer 1"
+   viewBox="0 0 100 100"
+   x="0px"
+   y="0px"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="email.svg"
+   width="100"
+   height="100"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="10.029603"
+     inkscape:cx="37.937695"
+     inkscape:cy="69.344722"
+     inkscape:window-width="3840"
+     inkscape:window-height="2054"
+     inkscape:window-x="2549"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <title
+     id="title1">Artboard 4</title>
+  <path
+     d="m 29.933857,94.594433 a 122.54534,122.54534 0 0 0 20.074948,1.662073 122.50199,122.50199 0 0 0 20.074947,-1.662073 5.7811225,5.7811225 0 0 0 -1.893317,-11.345453 111.06982,111.06982 0 0 1 -36.348808,0 18.268347,18.268347 0 0 1 -15.074277,-15.059824 110.59287,110.59287 0 0 1 0,-36.348808 18.253894,18.253894 0 0 1 15.059824,-15.074277 111.06982,111.06982 0 0 1 36.348808,0 18.268347,18.268347 0 0 1 15.074277,15.059824 110.93974,110.93974 0 0 1 1.44528,18.181631 v 3.613201 a 6.5037628,6.5037628 0 0 1 -13.007525,0 V 50.007526 A 21.751473,21.751473 0 1 0 64.851837,65.761084 18.037102,18.037102 0 0 0 96.257784,53.620727 v -6.503763 0 A 122.5598,122.5598 0 0 0 94.653523,29.932578 29.830592,29.830592 0 0 0 70.083752,5.3628071 a 122.71878,122.71878 0 0 0 -40.149895,0 29.816139,29.816139 0 0 0 -24.5697709,24.5697709 122.11176,122.11176 0 0 0 0,40.149895 29.830592,29.830592 0 0 0 24.5697709,24.51196 z M 50.008805,60.12449 A 10.116964,10.116964 0 1 1 60.125769,50.007526 10.116964,10.116964 0 0 1 50.008805,60.12449 Z"
+     id="path1"
+     style="stroke-width:1.44528;fill:#ffffff" />
+  <metadata
+     id="metadata2">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>Artboard 4</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
