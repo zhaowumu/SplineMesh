@@ -8,7 +8,12 @@ public class SplineMesh : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" ,
+			"RenderCore", // 必须有
+			"RHI",        // 必须有
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
