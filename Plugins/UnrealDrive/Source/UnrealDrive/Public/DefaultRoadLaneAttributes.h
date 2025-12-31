@@ -23,7 +23,7 @@ namespace UnrealDrive
 
 /**
  * ERoadLaneMark
- * Can be used in gameplay (for example traffic generation). Has no effect on procedural generation.
+ * 可用于游戏玩法（例如交通生成）。对程序化生成无影响。
  */
  UENUM(BlueprintType)
  enum class ERoadLaneMark : uint8
@@ -44,7 +44,7 @@ struct UNREALDRIVE_API FRoadLaneMarkProfile
 {
 	GENERATED_USTRUCT_BODY()
 
-	/** Can be used in gameplay (for example traffic generation). Has no effect on procedural generation.  */
+	/** 可用于游戏玩法（例如交通生成）。对程序化生成无影响。  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Profile)
 	ERoadLaneMark Type = ERoadLaneMark::None;
 

@@ -18,6 +18,7 @@ enum { LANE_INDEX_NONE = 0 };
 
 namespace UnrealDrive
 {
+	// 默认道路车道宽度
 	const static double DefaultRoadLaneWidth = 375.0;
 	
 	UNREALDRIVE_API void TrimCurveInRang(FRichCurve& Curve, double Time0, double Time1, bool bFitBorders);
@@ -29,21 +30,21 @@ class ULaneConnection;
 struct FRoadLayout;
 
 /**
- * EDriveableRoadLaneType
+ * 可行驶道路车道类型
  */
 UENUM(BlueprintType)
 enum class EDriveableRoadLaneType : uint8
 {
-	None, /** Describes a no-drivable the space on the road and does not have actual content. */
-	Driving, /**  Describes a "normal" drivable road that is not one of the other types. */
+	None, /** 描述道路上的非行驶区域，但无实际内容。 */
+	Driving, /**  描述一条"普通"的可行驶道路，不属于其他类型。 */
 	//Bidirectional, /** */
-	Shoulder, /** Describes a soft border at the edge of the road.*/
-	Border, /** Describes a hard border at the edge of the road. It has the same height as the drivable lane. */
-	Stop, /** Hard shoulder on motorways for emergency stops.*/
-	Biking, /**  Describes a lane that is reserved for cyclists.*/
-	Restricted, /** Describes a lane on which cars should not drive. The lane has the same height as drivable lanes. Typically, the lane is separated with lines and often contains dotted lines as well.*/
-	Parking, /** Describes a lane with parking spaces.*/
-	Median, /** Describes a lane that sits between driving lanes that lead in opposite directions. It is typically used to separate traffic in towns on large roads. */
+	Shoulder, /** 路肩-描述道路边缘的软质边界。*/
+	Border, /** 描述道路边缘的硬质边界。其高度与可行驶车道相同。 */
+	Stop, /** 高速公路上的硬路肩，供紧急停车使用。*/
+	Biking, /** 骑行-描述一条专为骑行者保留的车道。*/
+	Restricted, /** "受限制的" 或 "限制通行区域"-描述一条汽车不应驶入的车道。该车道与可行驶车道高度相同。通常，该车道通过标线进行分隔，且常包含虚线。*/
+	Parking, /** 停车-描述带有停车位的车道。*/
+	Median, /** 中央分隔带-描述位于相反方向行驶车道之间的隔离区域。通常用于城镇主干道上分隔对向车流。 */
 	RoadWorks, 
 	Tram, 
 	//Entry, /** Describes a lane type that is used for sections that are parallel to the main road. It is mainly used for acceleration lanes. */
@@ -56,7 +57,7 @@ enum class EDriveableRoadLaneType : uint8
 
 
 /**
- * ERoadLaneDirection
+ * 道路车道方向枚举
  */
 UENUM(BlueprintType)
 enum class ERoadLaneDirection : uint8
@@ -66,7 +67,7 @@ enum class ERoadLaneDirection : uint8
 };
 
 /**
- * ERoadLaneSectionSide
+ * 道路车道断面侧边枚举
  */
 UENUM(BlueprintType)
 enum class ERoadLaneSectionSide : uint8
@@ -77,7 +78,7 @@ enum class ERoadLaneSectionSide : uint8
 };
 
 /**
- * ERoadDirection
+ * 道路方向
  */
 UENUM(BlueprintType)
 enum class ERoadDirection : uint8
@@ -88,8 +89,8 @@ enum class ERoadDirection : uint8
 
 
 /**
- * FRoadLaneInstance is the basic structure for storing FRoadLane data. 
- * The type the descendants of this structure is essentially also a type of FRoadLane (FRoadLaneDriving, FRoadLaneSidewalk)
+ * FRoadLaneInstance 是用于存储 FRoadLane 数据的基本结构。
+ * 该结构的衍生类型本质上也是 FRoadLane 的一种类型（例如 FRoadLaneDriving、FRoadLaneSidewalk）
  */
 USTRUCT(BlueprintType, Blueprintable)
 struct UNREALDRIVE_API FRoadLaneInstance
@@ -104,8 +105,8 @@ struct UNREALDRIVE_API FRoadLaneInstance
 
 
 /**
- * FRoadLaneDriving determines the type of FRoadLane - Driving.
- * This is any part of the road on which a vehicle could potentially move. For example: simple road, shoulder, biking, tram etc. lanes.
+ * FRoadLaneDriving 定义了 FRoadLane 的类型 - 行驶车道。
+ * 这是指车辆可以通行的任何道路部分，例如：普通车道、路肩、自行车道、有轨电车道等。
  */
 USTRUCT(BlueprintType, Blueprintable)
 struct UNREALDRIVE_API FRoadLaneDriving : public FRoadLaneInstance
@@ -113,21 +114,21 @@ struct UNREALDRIVE_API FRoadLaneDriving : public FRoadLaneInstance
 	GENERATED_USTRUCT_BODY()
 
 public:
-	/** Type of road lane. Not used for procedural generation. Can be used in game mechanics in any way, mainly for traffic generation. */
+	/** 道路车道类型。不用于程序化生成，可在游戏机制中任意使用，主要用于交通生成。 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane)
 	EDriveableRoadLaneType DriveableLaneType = EDriveableRoadLaneType::Driving;
 
-	/** Road lane material profile from UUnrealDrivePresetBase::DriveableMaterialProfiles */
+	/** 来自 UUnrealDrivePresetBase::DriveableMaterialProfiles 的道路车道材质配置 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane, meta = (GetOptions = "UnrealDrive.UnrealDrivePresetBase.GetDriveableMaterialProfiles"))
 	FName MaterialProfile = "Default";
 
-	// Invert U coordinate for UV0 for procedure generation
+	/** 在程序化生成中反转 UV0 的 U 坐标 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane)
 	bool bInvertUV0 = false;
 };
 
 /**
- * FRoadLaneSidewalk determines the type of FRoadLane - Sidewalk. This lane can't be used for vehicles only pedestrians.
+ * FRoadLaneSidewalk 定义了 FRoadLane 的类型 - 人行道。此车道仅供行人使用，车辆不可通行。
  */
 USTRUCT(BlueprintType, Blueprintable)
 struct UNREALDRIVE_API FRoadLaneSidewalk : public FRoadLaneInstance
@@ -147,33 +148,33 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane)
 	//double CurbWidth = 15;
 
-	/** Whether to build the inside curb (in the direction of the spline) when using procedural generation for this road lane  */
+	/** 在使用程序化生成为此道路车道时，是否构建内侧路缘（沿样条方向）  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane)
 	bool bInsideCurb = true;
 
-	/** Whether to build the outside curb (in the direction of the spline) when using procedural generation for this road lane  */
+	/** 在使用程序化生成为此道路车道时，是否构建外侧路缘（沿样条方向）  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane)
 	bool bOutsideCurb = true;
 
-	/** Whether to build the begining  cap curb (in the direction of the spline) when using procedural generation for this road lane  */
+	/** 在使用程序化生成为此道路车道时，是否构建起始端盖路缘（沿样条方向）  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane)
 	bool bBeginCurb = false;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane, meta = (EditCondition = "bBeginCurb", EditConditionHides))
 	FRuntimeFloatCurve BeginCapCurve;
 
-	/** Whether to build the ending cap curb (in the direction of the spline) when using procedural generation for this road lane  */
+	/** 在使用程序化生成为此道路车道时，是否构建结束端盖路缘（沿样条方向）  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane)
 	bool bEndCurb = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane, meta = (EditCondition = "bEndCurb", EditConditionHides))
 	FRuntimeFloatCurve EndCapCurve;
 
-	/** Road lane material profile from UUnrealDrivePresetBase::SidewalkMaterialProfiles */
+	/** 道路车道材质配置，取自 UUnrealDrivePresetBase::SidewalkMaterialProfiles */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane, meta = (GetOptions = "UnrealDrive.UnrealDrivePresetBase.GetSidewalkMaterialProfiles"))
 	FName MaterialProfile = "Default";
 
-	/** Curb profile profile from UUnrealDrivePresetBase::CurbProfiles */
+	/** 路缘石配置，取自 UUnrealDrivePresetBase::CurbProfiles */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = RoadLane, meta = (GetOptions = "UnrealDrive.UnrealDrivePresetBase.GetCurbProfiles"))
 	FName CurbProfile = "Default";
 };
@@ -363,7 +364,7 @@ private:
 };
 
 /**
- * FRoadLayout - determine the scope of all road lanes for URoadSplineComponent.
+ * 定义 URoadSplineComponent 中所有道路车道的范围。
  */
 USTRUCT(BlueprintType, Blueprintable)
 struct UNREALDRIVE_API FRoadLayout
@@ -381,26 +382,26 @@ struct UNREALDRIVE_API FRoadLayout
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = RoadLayout)
 	TArray<FRoadLaneSection> Sections;
 
-	/** Right offset of the road layout relative to URoadSplineComponent.
+	/** 道路布局相对于 URoadSplineComponent 的右侧偏移量。
 	  * See https://unrealdrive.readthedocs.io/en/latest/RoadModel.html#lane-offset */
 	UPROPERTY(EditAnywhere, Category = RoadLayout)
 	FRichCurve ROffset;
 
-	/** Common direction of the road. */
+	/** 道路的通用方向。 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = RoadLayout)
 	ERoadDirection Direction = ERoadDirection::LeftHand;
 
-	/** Supported only for closed splines (URoadSplineComponent::bClosedLoop == true). 
-	  * Fill the outline formed by the closed URoadSplineComponent with this Instance.
-	  * Mainly used for procedural generation to draw the refuge islands or pedestrian crossings. */
+	/** 仅支持闭合样条线（URoadSplineComponent::bClosedLoop == true
+	  * 用此实例填充由闭合 URoadSplineComponent 形成的外轮廓。
+	  * 主要用于程序化生成以绘制安全岛或人行横道区域。  */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FilledInstance, Meta = (DisplayName = "Instance"))
 	TInstancedStruct<FRoadLaneInstance> FilledInstance;
 
-	/** UV textures rotation for the FilledInstance. Used for procedure generation only. [deg]*/
+	/** 用于 FilledInstance 的 UV 纹理旋转。仅用于程序化生成。[单位：度]*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FilledInstance)
 	double FilledInstanceTexAngle = 0;
 
-	/** UV textures scale for the FilledInstance. Used for procedure generation only. */
+	/** 用于 FilledInstance 的 UV 纹理缩放。仅用于程序化生成。 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FilledInstance)
 	double FilledInstanceTexScale = 1.0;
 
@@ -426,10 +427,10 @@ private:
 };
 
 /**
- * URoadConnections  are located at the beginning and end of each URoadSplineComponent. 
- * Used to organize link between the FRoadLane and others URoadSplineComponent.
- * The forward vector of this connection's transform is co-directed with owned URoadSplineComponent.
- * See https://unrealdrive.readthedocs.io/en/latest/RoadModel.html#intersections-and-junctions
+ * URoadConnections 位于每个 URoadSplineComponent 的起点和终点。
+ * 用于组织 FRoadLane 与其他 URoadSplineComponent 之间的连接。
+ * 该连接变换的前向向量与所属的 URoadSplineComponent 同向。
+ * 参见 https://unrealdrive.readthedocs.io/en/latest/RoadModel.html#intersections-and-junctions
  */
 UCLASS()
 class UNREALDRIVE_API URoadConnection: public UObject
@@ -494,9 +495,9 @@ private:
 
 
 /**
- * ULaneConnections are located at the beginning and end of each FRoadLane. 
- * Used to organize link between the FRoadLane and others URoadSplineComponent.
- * The forward vector of this connection's transform is co-directed with FRoadLane.
+ * ULaneConnections 位于每个 FRoadLane 的起点和终点。
+ * 用于组织 FRoadLane 与其他 URoadSplineComponent 之间的连接。
+ * 该连接变换的前向向量与 FRoadLane 同向。
  * See https://unrealdrive.readthedocs.io/en/latest/RoadModel.html#intersections-and-junctions
  */
 UCLASS(BlueprintType, Blueprintable)
